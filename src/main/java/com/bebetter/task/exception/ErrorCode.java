@@ -1,0 +1,22 @@
+package com.bebetter.task.exception;
+
+import lombok.Getter;
+
+@Getter
+public enum ErrorCode {
+
+    TASK_NOT_FOUND("BB101", "Task not found"),
+    USER_NOT_FOUND("BB102", "User not found"),
+    INCORRECT_PASSWORD("BB103", "Incorrect Password Provided"),
+    TASK_CREATION_LIMIT_EXHAUSTED("BB104", "Task Creation limit has been exhausted"),
+    VALIDATION_FAILED("BB105", "Validation Failed");
+
+    private final String description;
+    private final String code;
+
+    ErrorCode(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+}

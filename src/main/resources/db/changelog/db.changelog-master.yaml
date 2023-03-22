@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Rishav Mishra
+  - include:
+      file: db/changelog/changeset/createTaskTable.sql
+
+  - include:
+      file: db/changelog/changeset/createUserTable.sql
+
+  - changeSet:
+      id: 2
+      author: Rishav Mishra
+      changes:
+        - sqlFile:
+            path: db/changelog/changeset/createEmployeeTable.sql
+
+  - changeSet:
+      id: 3
+      author: Rishav Mishra
+      changes:
+        - sqlFile:
+            path: db/changelog/changeset/dropOldTableAndCreateAllNeededTables.sql
+
+  - changeSet:
+      id: 4
+      author: Rishav Mishra
+      changes:
+        - sqlFile:
+            path: db/changelog/changeset/AlterIdAutoIncrement.sql
+
+  - changeSet:
+      id: 5
+      author: Rishav Mishra
+      changes:
+        - sqlFile:
+            path: db/changelog/changeset/dropTaskTableAndRecreateWithAutoIncrement.sql

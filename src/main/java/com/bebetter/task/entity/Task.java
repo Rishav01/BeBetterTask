@@ -1,11 +1,9 @@
 package com.bebetter.task.entity;
 
+import com.bebetter.task.enums.Status;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -17,17 +15,17 @@ import java.time.LocalDateTime;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer taskId;
-    private String taskName;
-    private Integer taskAssignedPoints;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+    private String name;
+    private Integer assignedPoints;
     private LocalDate forDate;
-    private LocalDateTime taskAddedTime;
-    private LocalDateTime taskCancelledTime;
-    private LocalDateTime taskCompletedTime;
-    private Boolean isTaskCompleted;
-    private Integer taskEvaluationPoints;
-    private String userEmailId;
+    private LocalDateTime createdTime;
+    private LocalDateTime updateTime;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    private Integer evaluatedPoints;
+    private String emailId;
 }
 
 //TODO: check if @ToString annotation is alright to add. What is the right way to print object in log

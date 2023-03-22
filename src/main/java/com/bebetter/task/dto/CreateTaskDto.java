@@ -9,11 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class SetTaskDto {
+public class CreateTaskDto {
     @Email
     private String emailId;
-    private String diary;
-    @FutureOrPresent
+    @FutureOrPresent()
     private LocalDate forDate;
     @Valid
     private List<TaskDto> taskDtoList;

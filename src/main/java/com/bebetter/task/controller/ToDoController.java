@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class ToDoController {
 
-    @Autowired
+    /*@Autowired
     ToDoService toDoService;
 
     @GetMapping("/task-by-date")
@@ -30,5 +30,5 @@ public class ToDoController {
     public Double presentDayEfficiency(@RequestBody EfficiencyRequestDto efficiencyRequestDto){
         log.info("Request received for getting efficiency for {}", efficiencyRequestDto.getUserEmailId());
         return toDoService.getUserEfficiency(efficiencyRequestDto);
-    }
+    }*/
 }

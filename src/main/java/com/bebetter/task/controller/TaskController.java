@@ -1,46 +1,50 @@
 package com.bebetter.task.controller;
 
-import com.bebetter.task.dto.TaskCompleteRequestDto;
-import com.bebetter.task.dto.TaskDto;
+import com.bebetter.task.dto.CreateTaskDto;
 import com.bebetter.task.entity.Task;
+import com.bebetter.task.enums.Status;
 import com.bebetter.task.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.FutureOrPresent;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/task")
 @Slf4j
+@Validated
 public class TaskController {
 
     @Autowired
     TaskService taskService;
 
-    @PostMapping("/create")
-    public ResponseEntity create(@RequestBody TaskDto taskDto){
-        log.info("Request for creating a Task for EmailId: ", taskDto.getUserEmailId());
-        String responseMessage = taskService.createTask(taskDto);
-        return responseMessage.contains("Task Created with Id") ?
-            new ResponseEntity(responseMessage, HttpStatus.CREATED) : new ResponseEntity(responseMessage, HttpStatus.BAD_REQUEST);
+    @PostMapping("/set-tasks")
+    public ResponseEntity<List<Task>> setTasks(@Valid @RequestBody CreateTaskDto setDiaryDto){
+        log.info("Request received for setting task for user {}", setDiaryDto.getEmailId());
+        return new ResponseEntity<>(taskService.setTasks(setDiaryDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-all")
-    public List<Task> getAllTask(@RequestParam(required=false) String userEmailId){
-        log.info("Request for getting all the tasks received");
-        return taskService.getAllTask(userEmailId);
+    @GetMapping("/get-tasks")
+    public ResponseEntity<List<Task>> getDiaryTask(@RequestParam @Email String emailId,
+                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tillDate,
+                                                   @RequestParam(required = false) Status status){
+        log.info("Request received for getting the diary for user {} and for the duration {} to {}",
+                emailId, fromDate, tillDate);
+        return new ResponseEntity<>(taskService.getTasks(emailId, fromDate, tillDate, status), HttpStatus.OK);
     }
-
-    @PostMapping("/complete")
-    public String completeTask(@RequestBody TaskCompleteRequestDto taskCompleteRequestDto){
-        log.info("Request received for task completion with id {}", taskCompleteRequestDto.getTaskId());
-        return taskService.completeTask(taskCompleteRequestDto);
-    }
-
 }
+
+
 //TODO: To check if camelcasing is alright for urls
 //TODO: is it alright to send string in rest api response or Json is better?
 //TODO: Need to enable the authentication before sending request to service

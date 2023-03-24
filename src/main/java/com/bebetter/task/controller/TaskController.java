@@ -37,7 +37,7 @@ public class TaskController {
     public ResponseEntity<List<Task>> getDiaryTask(@RequestParam @Email String emailId,
                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tillDate,
-                                                   @RequestParam(required = false) Status status){
+                                                   @RequestParam(required = false) String status){
         log.info("Request received for getting the diary for user {} and for the duration {} to {}",
                 emailId, fromDate, tillDate);
         return new ResponseEntity<>(taskService.getTasks(emailId, fromDate, tillDate, status), HttpStatus.OK);

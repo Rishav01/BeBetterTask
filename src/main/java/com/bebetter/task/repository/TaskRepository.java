@@ -20,5 +20,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Query(value = "select * from task t where t.email_Id = :emailId and t.for_Date >= :fromDate " +
             "and t.for_Date <= :tillDate and t.status = :status", nativeQuery = true)
-    public List<Task> getTasksByUserDurationAndStatus(String emailId, LocalDate fromDate, LocalDate tillDate, Status status);
+    public List<Task> getTasksByUserDurationAndStatus(String emailId, LocalDate fromDate, LocalDate tillDate, String status);
 }

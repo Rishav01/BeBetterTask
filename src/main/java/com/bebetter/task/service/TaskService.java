@@ -42,15 +42,19 @@ public class TaskService {
     }
 
     public List<Task> getTasks(String emailId, LocalDate fromDate,
-                               LocalDate tillDate, Status status){
-        log.info("Starting to get the Tasks for a date");
-        List<Task> taskResponseDto = status==null ? taskRepository.getTasksByUserAndDuration(emailId, fromDate, tillDate)
-                : taskRepository.getTasksByUserDurationAndStatus(emailId, fromDate, tillDate, status);
-        if(taskResponseDto.size()==0){
-            log.error("Exception has occurred for user {}", emailId);
-            throw new BeBetterNotFoundException(ErrorCode.TASK_NOT_FOUND.getDescription(), ErrorCode.TASK_NOT_FOUND);
+                               LocalDate tillDate, String status){
+        if(fromDate.isBefore(tillDate) || fromDate.isEqual(tillDate)) {
+            log.info("Starting to get the Tasks for a date");
+            List<Task> taskResponseDto = status == null ? taskRepository.getTasksByUserAndDuration(emailId, fromDate, tillDate)
+                    : taskRepository.getTasksByUserDurationAndStatus(emailId, fromDate, tillDate, status);
+            if (taskResponseDto.size() == 0) {
+                log.error("Exception has occurred for user {}", emailId);
+                throw new BeBetterNotFoundException(ErrorCode.TASK_NOT_FOUND.getDescription(), ErrorCode.TASK_NOT_FOUND);
+            }
+            return taskResponseDto;
+        }else{
+            throw new BeBetterBadRequestException("fromDate cannot be after tillDate", ErrorCode.INVALID_DATE_RANGE);
         }
-        return taskResponseDto;
     }
 
     private List<Task> convertTaskDtoToEntity(CreateTaskDto createTaskDto){

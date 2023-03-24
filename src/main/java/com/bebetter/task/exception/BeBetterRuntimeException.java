@@ -11,7 +11,7 @@ public class BeBetterRuntimeException extends RuntimeException{
 
     public BeBetterRuntimeException(String message, ErrorCode errorCode){
         super(message);
-        this.beBetterErrorResponse = new BeBetterErrorResponse(errorCode, errorCode.getDescription(),
+        this.beBetterErrorResponse = new BeBetterErrorResponse(errorCode, message,
                 LocalDateTime.now());
     }
 }
